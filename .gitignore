@@ -45,3 +45,29 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+.txt
+*.zip
+*.nc
+*.txt
+*.jpg
+*.shp
+*.shx
+*.dbf
+*.sbn
+*.cpg
+*.prj
+*.sbx
+*.xml
+*.lock
+*.mat
+#unwanted subdirectories
+IN/
+*.dbf
+Centerline/
+FinalProduct/
+INDB/
+INrawRA/
+INshapes/
+InValid/
+StatsOut/
+VSoutput/
