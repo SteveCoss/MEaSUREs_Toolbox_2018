@@ -9,8 +9,8 @@ clear all ;close all; clc;
 %% User toggles
 
 Toggle.OneRiver=1;%set true to run only river named in toggle.Curriv
-Toggle.Curriv={'Tocantins','SaoFrancisco','Uruguay','Magdalena','Parana','Oiapoque','Essequibo','Courantyne','Congo','Nile','Niger','Zambezi','Amur','Anabar','Ayeyarwada','Kuloy','Ob','Mezen','Lena','Yenisei','Pechora','Pyasina','Khatanga','Olenyok','Indigirka','Kolyma','Anadyr','Yangtze','Mekong','Ganges','Brahmaputra','Indus','Volga'};
-Toggle.OneAlt=1 ;%set true to look at just one altimiter or a subset
+Toggle.Curriv={'Mississippi'};
+Toggle.OneAlt=0 ;%set true to look at just one altimiter or a subset
 Toggle.CurAlt={'Jason2'};
 Toggle.tide=1;%omit tidal stations
 Toggle.validate=1;

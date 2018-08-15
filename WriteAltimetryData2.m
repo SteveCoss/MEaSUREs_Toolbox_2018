@@ -74,6 +74,14 @@ for i = 1:length(VSall)
             vIDs.proxR=netcdf.defVar(ncid,'proxR','NC_DOUBLE',gradedimid);
             vIDs.proxE=netcdf.defVar(ncid,'proxE','NC_DOUBLE',gradedimid);
             
+            vIDs.nsest=netcdf.defVar(ncid,'nsest','NC_DOUBLE',gradedimid);
+            vIDs.nsemedianst=netcdf.defVar(ncid,'nsemedianst','NC_DOUBLE',gradedimid);
+            vIDs.Rst=netcdf.defVar(ncid,'Rst','NC_DOUBLE',gradedimid);
+            vIDs.stdst=netcdf.defVar(ncid,'stdst','NC_DOUBLE',gradedimid);
+            vIDs.stdmedianst=netcdf.defVar(ncid,'stdmedianst','NC_DOUBLE',gradedimid);
+            
+            
+            
         end
         
         
@@ -128,6 +136,7 @@ for i = 1:length(VSall)
         vIDs.hwbar=netcdf.defVar(tGroupID,'hwbar','NC_DOUBLE',Ztsdimid);
         vIDs.sig0Avg=netcdf.defVar(tGroupID,'sig0bar','NC_DOUBLE',tsdimid);
         vIDs.pkAvg=netcdf.defVar(tGroupID,'pkbar','NC_DOUBLE',tsdimid);
+        vIDs.hbarST=netcdf.defVar(tGroupID,'hbarST','NC_DOUBLE',Ztsdimid);
         
         
         %2.6 filter
@@ -273,6 +282,24 @@ for i = 1:length(VSall)
             netcdf.putAtt(ncid,vIDs.proxE,'standard_name','Nash_Sutcliffe_efficiency_of_most_proximal_gage');
             netcdf.putAtt(ncid,vIDs.proxE,'units','m')
             
+            %v3
+            netcdf.putAtt(ncid,vIDs.nsest,'long_name','MAX nash sutcliffe efficiency st');
+            netcdf.putAtt(ncid,vIDs.nsest,'standard_name','max_nash_sutcliffe_efficiency st');
+            
+            netcdf.putAtt(ncid,vIDs.nsemedianst,'long_name','median nash sutcliffe efficiency st');
+            netcdf.putAtt(ncid,vIDs.nsemedianst,'standard_name','median_nash_sutcliffe_efficiency st');
+            
+            netcdf.putAtt(ncid,vIDs.Rst,'long_name','correlation coefficient st');
+            netcdf.putAtt(ncid,vIDs.Rst,'standard_name','correlation_coefficient st');
+            
+            netcdf.putAtt(ncid,vIDs.stdst,'long_name',' MIN standard deviation of error st');
+            netcdf.putAtt(ncid,vIDs.stdst,'standard_name','min_standard_deviation_of_error st');
+            netcdf.putAtt(ncid,vIDs.stdst,'units','m');
+            
+            netcdf.putAtt(ncid,vIDs.stdmedianst,'long_name','median standard deviation of error st');
+            netcdf.putAtt(ncid,vIDs.stdmedianst,'standard_name','median_standard_deviation_of_error st');
+            netcdf.putAtt(ncid,vIDs.stdmedianst,'units','m');
+            
         end
         
         
@@ -361,6 +388,11 @@ for i = 1:length(VSall)
         netcdf.putAtt(tGroupID,vIDs.hbar,'standard_name','average_height');
         netcdf.putAtt(tGroupID,vIDs.hbar,'positive','up');
         
+         netcdf.putAtt(tGroupID,vIDs.hbarST,'units','meters_above_EGM2008_geoid');
+        netcdf.putAtt(tGroupID,vIDs.hbarST,'long_name','Average Height ST');
+        netcdf.putAtt(tGroupID,vIDs.hbarST,'standard_name','average_height_ST');
+        netcdf.putAtt(tGroupID,vIDs.hbarST,'positive','up');
+        
         netcdf.putAtt(tGroupID,vIDs.hwbar,'units','meters_above_EGM2008_geoid');
         netcdf.putAtt(tGroupID,vIDs.hwbar,'long_name','Weighted Average Height');
         netcdf.putAtt(tGroupID,vIDs.hwbar,'standard_name','weighted_average__height');
@@ -427,6 +459,12 @@ for i = 1:length(VSall)
             netcdf.putVar(ncid,vIDs.proxSTD,0,length(VS.stats),VS.stats.proxSTD);%grade
             netcdf.putVar(ncid,vIDs.proxR,0,length(VS.stats),VS.stats.proxR);%grade
             netcdf.putVar(ncid,vIDs.proxE,0,length(VS.stats),VS.stats.proxE);%grade
+            %v3
+            netcdf.putVar(ncid,vIDs.nsest,0,length(VS.stats),VS.stats.nsest);%grade
+            netcdf.putVar(ncid,vIDs.nsemedianst,0,length(VS.stats),VS.stats.nsemedianst);%grade
+            netcdf.putVar(ncid,vIDs.Rst,0,length(VS.stats),VS.stats.Rst);%grade
+            netcdf.putVar(ncid,vIDs.stdst,0,length(VS.stats),VS.stats.stdst);%grade
+            netcdf.putVar(ncid,vIDs.stdmedianst,0,length(VS.stats),VS.stats.stdmedianst);%grade
             
         end
         
@@ -461,6 +499,7 @@ for i = 1:length(VSall)
         netcdf.putVar(tGroupID,vIDs.time,VS.AltDat.t-startdate);
         netcdf.putVar(tGroupID,vIDs.cycle,VS.AltDat.ci);
         netcdf.putVar(tGroupID,vIDs.hbar,VS.AltDat.hbar);
+         netcdf.putVar(tGroupID,vIDs.hbarST,VS.AltDat.V3hbar);
         netcdf.putVar(tGroupID,vIDs.hwbar,VS.AltDat.hwbar);
         netcdf.putVar(tGroupID,vIDs.sig0Avg,VS.AltDat.sig0Avg);
         

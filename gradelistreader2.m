@@ -48,6 +48,13 @@ for i=1:length(CheckSat)
             Currgrades(j).stats.proxR=RAW{(j),11};
             Currgrades(j).stats.proxE=RAW{(j),12};
             end
+             if S(2)>12
+            Currgrades(j).stats.Rst=RAW{(j),13};
+            Currgrades(j).stats.nsest=RAW{(j),14};
+            Currgrades(j).stats.nsemedianst=RAW{(j),15};
+            Currgrades(j).stats.stdst=RAW{(j),16};
+            Currgrades(j).stats.stdmedianst=RAW{(j),17};
+            end
         else
             Currgrades(j).stats =[];
         end

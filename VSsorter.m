@@ -14,7 +14,7 @@ for i = 1:length(SATZZ);
     end
     %% save unique VS
     SVVS=VSpack(i).VS;
-    Fname=fullfile(loadswitch.VSdir,strcat(Riv{1},SATZ{i},'VS_SF'));
+    Fname=fullfile(loadswitch.VSdir,strcat(Riv{1},SATZZ{i},'VS_SF'));
     save(Fname,'SVVS');
 end
 end

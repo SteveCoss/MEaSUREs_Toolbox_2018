@@ -40,11 +40,13 @@ if adwd<length(datedifs)&& VS(vsnum).AltDat.Write%makes sure the closest date is
             %VS
             LIMITS.VST= VS(vsnum).AltDat.t(intersect(VSdatedexst,VSdatedexend));%plot time VS
             LIMITS.VSH=VS(vsnum).AltDat.hbar(intersect(VSdatedexst,VSdatedexend));%plot elevation VS
+            LIMITS.VSHst=VS(vsnum).AltDat.V3hbar(intersect(VSdatedexst,VSdatedexend));%plot elevation VS
             if ~isnan(nansum( LIMITS.VSH));
                 %need to remove ice flags
                 icedex=  LIMITS.VSH>-9998;
                 LIMITS.VSTslim= LIMITS.VST(icedex);
                 LIMITS.VSHslim= LIMITS.VSH(icedex);
+                 LIMITS.VSHstslim= LIMITS.VSHst(icedex);
             end
         end
         

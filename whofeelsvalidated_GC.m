@@ -2,9 +2,12 @@
 %aggrigate river
 function whofeelsvalidated_GC(VS,Toggle)
 RIV={VS.Riv};
+Sat={VS.Satellite};
 Riv=unique(RIV(find(~cellfun(@isempty,RIV))));
+SAT=unique(Sat(find(~cellfun(@isempty,Sat))));
 River=Riv{1};
-flist=dir(fullfile(Toggle.Statsdir,strcat(River,'*.mat')));
+satt=SAT{1};
+flist=dir(fullfile(Toggle.Statsdir,strcat(River,satt,'*.mat')));
 for ii=1:length(flist)
     data{ii}=load(fullfile(Toggle.Statsdir,flist(ii).name)); % load files in workspace
 end
@@ -25,6 +28,14 @@ for i=1:s(2);
             R(j,i)=data{1,i}.Stats(j).R;
             id(j,i)=data{1,i}.Stats(j).Id;
             PROX(j,i)=data{1,i}.Stats(j).proximity;
+            % V3
+            %if isfield(data{1,i}.Stats(j),'Est');
+            if ~isempty(data{1,i}.Stats(j).Est) && ~isempty(data{1,i}.Stats(j).STDst) && ~isempty(data{1,i}.Stats(j).Rst)
+            rawE_V3(j,i)=data{1,i}.Stats(j).Est;
+            rawSTD_V3(j,i)=data{1,i}.Stats(j).STDst;
+            R_V3(j,i)=data{1,i}.Stats(j).Rst;
+           % end
+            end
         end
     end
 end
@@ -41,6 +52,11 @@ gratio=reshape(gratio,alls,1);
 R=reshape(R,alls,1);
 PROX=reshape(PROX,alls,1);
 id= reshape(id,alls,1);
+
+%V3
+rawE_V3=reshape(rawE_V3,alls,1);
+rawSTD_V3=reshape(rawSTD_V3,alls,1);
+R_V3=reshape(R_V3,alls,1);
 %this removes all the blanks
 for i =1:length(ID)
     if ~isempty(ID{i});
@@ -60,6 +76,10 @@ gratio=gratio(IDdex);
 R=R(IDdex);
 PROX=PROX(IDdex);
 id=id(IDdex);
+%v3
+rawE_V3=rawE_V3(IDdex);
+rawSTD_V3=rawSTD_V3(IDdex);
+R_V3=R_V3(IDdex);
 
 %meta validation
 %this pulls out all values for unique VS an in some cases finds an average
@@ -77,11 +97,19 @@ for i=1:length(ID)
         stRmax(i)=max(R(stationdex));
         stRavg(i)=mean(R(stationdex));
         idid(i)=id(stationdex(1));
+        %v3
+        stationminSTD_V3(i)=min(rawSTD_V3(stationdex));
+        stationaverageSTD_V3(i)=nanmean(rawSTD_V3(stationdex));
+        stationmaxE_V3(i)=max(rawE_V3(stationdex));
+        stationaverageE_V3(i)=nanmean(rawE_V3(stationdex));
+        stRmax_V3(i)=max(R_V3(stationdex));
+        stRavg_V3(i)=mean(R_V3(stationdex));
         %prox
         [stMinprox(i) minproxdex]=min(abs(PROX(stationdex)));
         stMinproxSTD(i)=rawSTD(stationdex(minproxdex));
         stMinproxR(i)=R(stationdex(minproxdex));
         stMinproxE(i)=rawE(stationdex(minproxdex));
+        
       
         
     end
@@ -98,6 +126,14 @@ for i=1:length(totalchecked)
     Rstmax(i)=stRmax(stdex);
     Rstavg(i)=stRavg(stdex);
     ididid(i)=idid(stdex);
+    %vv3
+     mxE_V3(i)=stationmaxE_V3(stdex);
+    avgE_V3(i)=stationaverageE_V3(stdex);
+    minSTD_V3(i)=stationminSTD_V3(stdex);
+    avgSTD_V3(i)=stationaverageSTD_V3(stdex);
+    Rstmax_V3(i)=stRmax_V3(stdex);
+    Rstavg_V3(i)=stRavg_V3(stdex);
+    %prox
     
      Minprox(i)=stMinprox(stdex);
     MinproxSTD(i)=stMinproxSTD(stdex);
@@ -126,6 +162,13 @@ grade(:,9)=num2cell( Minprox);
 grade(:,10)=num2cell(MinproxSTD);
 grade(:,11)=num2cell(MinproxR);
 grade(:,12)=num2cell(MinproxE);
+
+grade(:,13)=num2cell(Rstmax_V3);
+grade(:,14)=num2cell(mxE_V3);
+grade(:,15)=num2cell(avgE_V3);
+grade(:,16)=num2cell(minSTD_V3);
+grade(:,17)=num2cell(avgSTD_V3);
+
 
 %splin into alt sets and generate xls for processvirtualstations.m to read
 GradeUpdate(VS,grade,Toggle);
