@@ -15,7 +15,7 @@ else if strcmp(SMF,'ERS1c')
             Index = strfind(S(i).Station_ID, Key);
             Value = sscanf(S(i).Station_ID(Index(1) + length(Key):end), '%g', 1);
             VS(i).ID=[Riv '_' SMF '_' num2str(Value)];
-        else if strcmp(SMF,'ERS2')
+        else if strcmp(SMF,'SARAL')
                 Key   = [Riv '_' 'Envisat_'];
                 Index = strfind(S(i).Station_ID, Key);
                 Value = sscanf(S(i).Station_ID(Index(1) + length(Key):end), '%g', 1);

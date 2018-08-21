@@ -11,6 +11,10 @@ else if strcmp(satellite,'TopexPos')
     else if strcmp(satellite,'ERS1c')||strcmp(satellite,'ERS1g') ||strcmp(satellite,'ERS2')
             S=shaperead(fullfile(Toggle.Shapedir,[fname '_' 'Envisat' 'V2']));
             SMF= satellite;%shapemodflag
+        else if strcmp(satellite,'SARAL')
+                S=shaperead(fullfile(Toggle.Shapedir,[fname '_' 'Envisat' 'V2']));%need to pull in and modifyEnvi 
+                SMF= satellite;%shapemodflag
+            end
         end
     end
 end

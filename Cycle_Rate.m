@@ -27,6 +27,11 @@ else if satellite(1)=='J'
                         Ncyc.max=101;
                           Ncyc.ct=19;
                         VS(i).Rate=20; %Hz
+                        else if satellite(1:5)=='SARAL'%need to correct these cycle numbers
+                        Ncyc.max=35;
+                          Ncyc.ct=35;
+                        VS(i).Rate=40; %Hz
+                            end
                     end
                 end
             end
