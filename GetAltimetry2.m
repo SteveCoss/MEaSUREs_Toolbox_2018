@@ -47,7 +47,7 @@ else if all(fgetl(fid)~= -1)
         
         %% read DEM data
         %ers DEM info is in a different format
-        if strcmp(VS.Satellite,'Envisat') || strcmp(VS.Satellite,'Jason2')
+        if strcmp(VS.Satellite,'Envisat') || strcmp(VS.Satellite,'Jason2') || strcmp(VS.Satellite,'Jason1')  || strcmp(VS.Satellite,'Jason3')
         
         delimiter = {' ','  ','   ','    '};
         endRow = 3;
@@ -66,9 +66,9 @@ else if all(fgetl(fid)~= -1)
             Altimetry.demDat=textscan(fid,formatSpec, endRow,... 
                 'Delimiter',delimiter,'EmptyValue',NaN,'ReturnOnError', false);
          fclose(fid);
-        if ~strcmp(VS.Satellite,'Envisat') && ~strcmp(VS.Satellite,'Jason2')
+        if ~strcmp(VS.Satellite,'Envisat') && ~strcmp(VS.Satellite,'Jason2')&& ~strcmp(VS.Satellite,'Jason1') && ~strcmp(VS.Satellite,'Jason3')
             for k = 1:3;
-                for m=1:3;
+                for m=1:length( Altimetry.demDat{1,k});
                     delimiter = {'='};
                     formatSpec = '%*s%f';
                     Altimetry.demDat{1,k}(m)= textscan(Altimetry.demDat{1,k}{m},...
@@ -86,6 +86,7 @@ else if all(fgetl(fid)~= -1)
     else
         GDat=-1;
         Altimetry.c=[];
+        DEM=[-9999,-9999,-9999];
     end
 end
 

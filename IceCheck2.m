@@ -9,7 +9,9 @@ function [DoIce,IceData] = IceCheck(rivername,Toggle);
                || strcmp(rivername,'Lena') || strcmp(rivername,'Menzen')...
                 ||strcmp(rivername,'Ob') || strcmp(rivername,'Olenyok')...
                || strcmp(rivername,'Pechora')|| strcmp(rivername,'StLawrence')...
-               || strcmp(rivername,'Yenisei');
+               || strcmp(rivername,'Yenisei') || strcmp(rivername,'Kuloy')...
+                || strcmp(rivername,'Pyasina') || strcmp(rivername,'Anadyr')...
+                 || strcmp(rivername,'Khatanga') || strcmp(rivername,'Amur');
                 
             DoIce=true;
         else
@@ -17,7 +19,11 @@ function [DoIce,IceData] = IceCheck(rivername,Toggle);
         end
         icefile = fullfile(Toggle.Icedir,['icebreak_' rivername]);
         if DoIce
-                    [IceData] = ReadIceFile2(icefile); %read in ice file for freeze/thaw dates
+                    [IceData] = ReadIceFile2(icefile,Toggle.MODICE); %read in ice file for freeze/thaw dates
                 else IceData=[];
+        end
+        if Toggle.IceCheck==0 %override ice removal
+            DoIce=false;
+            IceData=[];
         end
 end

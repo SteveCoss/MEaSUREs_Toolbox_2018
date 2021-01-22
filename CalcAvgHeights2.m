@@ -69,7 +69,16 @@ else
     
    
     end
-    
+    if Altimetry.cmax> length(Altimetry.call)
+         if Altimetry.nGood/length(Altimetry.call)<=0.50 && isempty(IceData)
+        Altimetry.Write=0;
+    else if Altimetry.nGood/length(Altimetry.call)<=0.25 && ~isempty(IceData)
+            Altimetry.Write=0;
+        else
+            Altimetry.Write=1;
+        end
+    end
+    else
     if Altimetry.nGood/Altimetry.cmax<=0.50 && isempty(IceData)
         Altimetry.Write=0;
     else if Altimetry.nGood/Altimetry.cmax<=0.25 && ~isempty(IceData)
@@ -77,6 +86,7 @@ else
         else
             Altimetry.Write=1;
         end
+    end
     end
     
 end

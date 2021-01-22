@@ -1,9 +1,9 @@
 function [VS] = GP(VS,Grades)
 if ~isempty(Grades)
     G={Grades.grades};
-Grades=(Grades(find(~cellfun(@isempty,G))));
+    Grades=(Grades(find(~cellfun(@isempty,G))));
     gdex=find(strcmp([Grades.Sat],VS(1).Satellite)==1);
-   
+    
     if ~isempty(gdex) && ~isempty(Grades(gdex).grades)
         gradecells=string([Grades(gdex).grades.name]);
         for j = 1:length(VS)
@@ -17,6 +17,11 @@ Grades=(Grades(find(~cellfun(@isempty,G))));
                 VS(j).grade = 'z';
                 VS(j).stats = 'z';
             end
+        end
+    else
+        for j = 1:length(VS)
+            VS(j).grade = 'z';
+            VS(j).stats = 'z';
         end
     end
 else

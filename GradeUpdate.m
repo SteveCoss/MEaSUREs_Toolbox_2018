@@ -27,6 +27,9 @@ else
 end
 if ~isempty(gradefile)
 [NUMj TXTj RAWj]=xlsread(gradefile,'A1:L800');
+if isempty(TXTj)%file has never been written in
+    RAWj=Jdata;
+else
 Sj = size(Jdata);
 k=1;
  Jins ={};
@@ -51,6 +54,7 @@ k=1;
      RAWj=Fill;
  end
 RAWj=cat(1,RAWj,Jins);
+end
 OUTj={};
 K=1;
 for i=1:length(RAWj(:,1));

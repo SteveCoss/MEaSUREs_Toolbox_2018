@@ -5,6 +5,11 @@ for i=1:length(flist)
     if flist(i).bytes>0
         if length(flist(i).name)>=length(VS(1).Riv) && strcmp(flist(i).name(1:length(VS(1).Riv)),VS(1).Riv);
         gagedataUP=load(fullfile(Toggle.Validdir ,flist(i).name)); % load files in workspace
+        if ~isfield(gagedataUP,'GageFLdist') ||~isfield(gagedataUP,'Station')||~isfield(gagedataUP,'RIVER')
+            %add flow distance if there is none
+            [gagedataUP] = ADDfd2gage(gagedataUP,VS(1).Riv,flist(i).name,fullfile(Toggle.Validdir ,flist(i).name));
+%             save(fullfile(Toggle.Validdir ,flist(i).name),'gagedataUP');
+        end
         if isfield(gagedataUP,'Lon')
             gagedataUP=rmfield(gagedataUP,'Lon');
             gagedataUP=rmfield(gagedataUP,'Lat');

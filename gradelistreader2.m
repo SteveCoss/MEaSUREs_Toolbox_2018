@@ -27,8 +27,8 @@ for i=1:length(CheckSat)
     S=size(RAW);
     k=0;
     clear Store
-    for j=1:S(1)
-        
+      if ~isnan(RAW{1,1})
+    for j=1:S(1)       
         Currgrades(j).name=RAW((j),1);
         if isempty(RAW{(j),2})
             Currgrades(j).grade=nan;
@@ -75,6 +75,9 @@ for i=1:length(CheckSat)
     end
     Grades(i).Sat=CheckSat(i);
     else
+        Grades=[];
+      end
+     else
         Grades=[];
     end
     

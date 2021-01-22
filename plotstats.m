@@ -1,7 +1,14 @@
 %pstats calclates fit statistics
 function [pstats]=plotstats(LIMITS)
+if isfield(LIMITS,'VSHstslim');
+    DOV3=1;
+else
+    DOV3=0;
+end
 AltHslim=LIMITS.VSHslim;
+if DOV3
 AltHslimST=LIMITS.VSHstslim;
+end
 USGSH=LIMITS.USGSH;
 Idex=LIMITS.Idex;
 %stats
@@ -23,7 +30,7 @@ for i=1:length(Idex)
 end
 E=1-((nansum(top))/(nansum(bottom)));
 pstats.E=round(E,2);
-
+if DOV3
 %stats for hbarST
 if sum(isnan(LIMITS.VSHstslim)) <length(LIMITS.VSHstslim)
     RMSE = sqrt(nanmean((AltHslimST' - USGSH(Idex)).^2)) ; % Root Mean Squared Error
@@ -44,6 +51,6 @@ for i=1:length(Idex)
 end
 E=1-((nansum(top))/(nansum(bottom)));
 pstats.ST.E=round(E,2);
-    
+end   
 end
 end

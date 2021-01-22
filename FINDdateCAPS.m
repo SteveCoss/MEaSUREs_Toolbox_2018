@@ -1,6 +1,6 @@
 %finddatecpas is a sub function of validate 2.0 that scrubs data for
 %comparison
-function [LIMITS]=FINDdateCAPS(VS,gagedata,vsnum);
+function [LIMITS]=FINDdateCAPS(VS,gagedata,vsnum,Toggle);
 DATE=gagedata.DATE;
 stage=gagedata.stage;
 
@@ -40,19 +40,30 @@ if adwd<length(datedifs)&& VS(vsnum).AltDat.Write%makes sure the closest date is
             %VS
             LIMITS.VST= VS(vsnum).AltDat.t(intersect(VSdatedexst,VSdatedexend));%plot time VS
             LIMITS.VSH=VS(vsnum).AltDat.hbar(intersect(VSdatedexst,VSdatedexend));%plot elevation VS
-            LIMITS.VSHst=VS(vsnum).AltDat.V3hbar(intersect(VSdatedexst,VSdatedexend));%plot elevation VS
+            if Toggle.SF
+                LIMITS.VSHst=VS(vsnum).AltDat.V3hbar(intersect(VSdatedexst,VSdatedexend));%plot elevation VS
+            end
             if ~isnan(nansum( LIMITS.VSH));
                 %need to remove ice flags
                 icedex=  LIMITS.VSH>-9998;
                 LIMITS.VSTslim= LIMITS.VST(icedex);
                 LIMITS.VSHslim= LIMITS.VSH(icedex);
-                 LIMITS.VSHstslim= LIMITS.VSHst(icedex);
+                if Toggle.SF
+                    LIMITS.VSHstslim= LIMITS.VSHst(icedex);
+                end
             end
         end
         
     end
-    if ~isfield(LIMITS,'VST') || isempty(LIMITS.VST)||isempty(LIMITS.VSTslim)
-        LIMITS=[];
+    if Toggle.SF
+        if ~isfield(LIMITS,'VST') || isempty(LIMITS.VST)||isempty(LIMITS.VSTslim)
+            LIMITS=[];
+        end
+    else
+        if ~isfield(LIMITS,'VST') || isempty(LIMITS.VST)
+            LIMITS=[];
+            
+        end
     end
     
     

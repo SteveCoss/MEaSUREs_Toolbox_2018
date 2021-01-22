@@ -6,8 +6,9 @@ function VS =gradecheck(VS,riv,Tname, Tdist)
 index=strfind(Tname,riv);
 dx=find(~cellfun(@isempty,index));
 distkm=Tdist{dx};
-dist=distkm*1000;
+dist=distkm;%no longer in km
 if VS.FLOW_Dist<dist;
     VS.AltDat.Write=0;
+     VS.AltDat.TideFail=1;
 end
 return

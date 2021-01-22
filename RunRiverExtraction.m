@@ -9,13 +9,15 @@ clear all ;close all; clc;
 %% User toggles
 
 Toggle.OneRiver=1;%set true to run only river named in toggle.Curriv
-Toggle.Curriv={'Mississippi'};
+Toggle.Curriv={'Yukon'};
 Toggle.OneAlt=0 ;%set true to look at just one altimiter or a subset
-Toggle.CurAlt={'Jason2'};
+Toggle.CurAlt={'Jason1'};
 Toggle.tide=1;%omit tidal stations
 Toggle.validate=1;
-Toggle.terp=1;
-Toggle.Store=0;
+Toggle.USGSpull=0;
+Toggle.SF=1;%go through to secondary filtering and writing 
+Toggle.Store=1;
+Toggle.IceCheck=1;
 
 %% This sections access several database documents to provide ...
 %infastructure for futher processing.
@@ -24,6 +26,7 @@ Rivers=load(fullfile(TBroot,'INDB','Rivlist.mat'));
 Satellite=load(fullfile(TBroot,'INDB','SatList.mat'));
 Toggle.Icedir=fullfile(TBroot,'INDB\Ice');
 Toggle.Gradedir=fullfile(TBroot,'INDB\Grades');
+Toggle.USGSlistdir=fullfile(TBroot,'INDB\USGS');
 Toggle.RAdir=fullfile(TBroot,'INrawRA');
 Toggle.Shapedir =fullfile(TBroot,'INshapes');
 Toggle.Centerlinedir= fullfile(TBroot,'CenterLines');
@@ -32,6 +35,7 @@ Toggle.Validdir = fullfile(TBroot,'InValid');
 Toggle.Statsdir = fullfile(TBroot,'StatsOut');
 Toggle.FinalProductdir = fullfile(TBroot,'FinalProduct');
 [Toggle.Tname,Toggle.Tdist]=tidereader;% pull tide distance
+Toggle.MODICE=1;%use UCLA ice data when available
 %% choose correct dadabse info to load beofre looping
 
 [RunRiv,Satellite]=Optiontoggle(Toggle,Rivers, Satellite);
@@ -69,12 +73,16 @@ for iriv=1:length(RunRiv)
                 [FilterData(isat).filter,FilterData(isat).Sat]=filtermaker(VS,DEM,stations);
            
             [VS] = PrimaryFilter(VS,S,stations,FilterData(isat).filter,Toggle,Thisriv);
+          if ~Toggle.SF
             VSpuller2(VS,Thisriv,Thissat);%saves the VS for each sat/riv combo
+          end
+            
             end
         end
     end
     %% Combine ALL VS for river for second filter
-    [VSpack] = SecondaryFilter(Thisriv,Toggle);
+   
+    [VSpack] = SecondaryFilter(Thisriv,Toggle,Satellite);
     %% Grades and validation
     [VSpack] = gradecheck2(VSpack,Grades,Toggle,Thisriv,Satellite);
     %% Write to .nc and generate run report
@@ -83,6 +91,7 @@ for iriv=1:length(RunRiv)
     else
         sprintf(strcat('There were no files to write for_',Thissat,'_on the_',Thisriv,'_river'))
     end
+    
     
     
 end
